@@ -12,6 +12,14 @@ const authController = {
   register: async (req, res) => {
     console.log(req.body);
     try {
+      const checkUser = await User.findOne({username: req.body.username}).exec();
+      if (checkUser) {
+        res.status(500).json({
+          success: false,
+          message: "This user already registered in the database."
+        });
+        return;
+      }
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(req.body.password, salt);
       
@@ -22,7 +30,7 @@ const authController = {
       const user = await newUser.save();
       res.status(200).json({
         success: true,
-        message: "Logged in successfully"
+        message: "Registered successfully"
       });
     } catch (err) {
       res.status(500).json({
