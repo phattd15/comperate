@@ -10,8 +10,12 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
+const options = {
+  autoIndex: true
+};
+
 mongoose
-.connect(process.env.MONGO_URL)
+.connect(process.env.MONGO_URL, options)
 .then(console.log("Connected to database"))
 .catch((err) => console.log(err));
 

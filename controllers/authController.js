@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const atcoderPr = require('../util/atcoderProblemsetUpdate');
 const userController = require('./userController');
 const dotenv = require('dotenv');
+const codeforcesProblemsetUpdate = require('../util/codeforcesProblemsetUpdate');
 dotenv.config({ path: process.cwd() + '../.env' });
 
 const authController = {
@@ -73,6 +74,7 @@ const authController = {
     // res.status(200).json(process.env.ACCESS_TOKEN_SECRET);
     // console.log(process.env.ACCESS_TOKEN_SECRET);
     atcoderPr();//
+    codeforcesProblemsetUpdate();
     // await Problem.deleteMany({site: 'AC'}).then(() => {
     //   console.log("DELT");
     // }).catch((err) => {

@@ -36,7 +36,9 @@ async function updateAtcoderProblemset() {
           contestId: k.contest_id,
           rating: helper.ratingMapping('AC', correctLowerRating(probDiff[k.id].difficulty))
         });
+        cnt++;
         let prb = await problem.save();
+        console.log(`Updated ${cnt} atcoder records`);
       }
     }
   }

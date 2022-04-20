@@ -11,5 +11,5 @@ router.post("/register", authController.register);
 router.post('/login', authController.login);
 
 // Test
-router.post('/test', authController.test);
+// router.post('/test', authController.test);
 module.exports = router;
