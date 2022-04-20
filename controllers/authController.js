@@ -14,7 +14,7 @@ const authController = {
     try {
       const checkUser = await User.findOne({username: req.body.username}).exec();
       if (checkUser) {
-        res.status(500).json({
+        res.status(200).json({
           success: false,
           message: "This user already registered in the database."
         });
@@ -33,7 +33,7 @@ const authController = {
         message: "Registered successfully"
       });
     } catch (err) {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         message: err
       });
@@ -70,7 +70,7 @@ const authController = {
         user
       });
     } catch (err) {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         message: err
       });

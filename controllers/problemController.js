@@ -27,7 +27,7 @@ const problemController = {
         .limit(pageSize)
         .exec((err, docs) => {
           if (err) {
-            res.status(500).json({
+            res.status(200).json({
               success: false,
               message: err
             });
@@ -40,7 +40,7 @@ const problemController = {
           }
       })
     } catch(err) {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         message: err
       })
@@ -52,7 +52,7 @@ const problemController = {
     let user = await User.findOne({username}).exec();
 
     if (!user) {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         message: "User does not exist"
       });
@@ -61,7 +61,7 @@ const problemController = {
     try {
       let problem = await Problem.findOne({ siteId }).exec();
       if (!problem) {
-        res.status(500).json({
+        res.status(200).json({
           success: false,
           message: "No such problem found in the database"
         });
@@ -93,7 +93,7 @@ const problemController = {
         problem: resProb
       });
     } catch (err) {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         message: err
       });
@@ -106,7 +106,7 @@ const problemController = {
       let user = await User.findOne({username}).exec();
 
       if (!user) {
-        res.status(500).json({
+        res.status(200).json({
           success: false,
           message: "User does not exist"
         });
@@ -118,7 +118,7 @@ const problemController = {
         voted: user.votes
       });
     } catch(err) {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         message: err
       })

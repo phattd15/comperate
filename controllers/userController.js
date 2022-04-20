@@ -70,7 +70,7 @@ const userController = {
         });
       }
     } catch (err) {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         message: err
       });
@@ -137,7 +137,7 @@ const userController = {
         user: resUser
       });
     } catch (err) {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         message: err
       });
