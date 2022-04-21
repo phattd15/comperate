@@ -1,11 +1,12 @@
 const Problem = require('../models/Problem');
 
 const problemController = require('../controllers/problemController');
+const authController = require('../controllers/authController');
+const authTk = require('../util/authTk')
 
 const router = require('express').Router();
 
-router.get('/all', problemController.getProblems);
-router.post('/vote', problemController.vote);
-router.get('/voted', problemController.getVotedList);
+router.post('/all', problemController.getProblems);
+router.post('/vote', authTk, problemController.vote);
 
 module.exports = router;

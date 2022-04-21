@@ -14,7 +14,7 @@ const authController = {
     try {
       const checkUser = await User.findOne({username: req.body.username}).exec();
       if (checkUser) {
-        res.status(200).json({
+        res.json({
           success: false,
           message: "This user already registered in the database."
         });
@@ -28,14 +28,14 @@ const authController = {
         password: hashedPass
       });
       const user = await newUser.save();
-      res.status(200).json({
+      res.json({
         success: true,
         message: "Registered successfully"
       });
     } catch (err) {
-      res.status(200).json({
+      res.json({
         success: false,
-        message: err
+        message: "Your request failed for a random reason"
       });
     }
   },
@@ -47,7 +47,7 @@ const authController = {
       });
   
       if (!user) {
-        res.status(400).json({
+        res.json({
           success: false,
           message: "User does not exist in the database."
         });
@@ -57,29 +57,35 @@ const authController = {
       const validated = await bcrypt.compare(req.body.password, user.password);
   
       if (!validated) {
-        res.status(400).json({
-          success:false,
+        res.json({
+          success: false,
           message: "Wrong password."
         });
         return;
       }
   
-      res.status(200).json({
+      res.json({
         success: true,
         message: "Logged in successfully",
-        user
+        user,
+        token: jwt.sign({
+          username: user.username
+        }, process.env.ACCESS_TOKEN_SECRET, {
+          'expiresIn': '7d'
+        })
       });
     } catch (err) {
-      res.status(200).json({
+      res.json({
         success: false,
-        message: err
+        message: "Your request failed for a random reason"
       });
     }
   },
 
+
   test: async (req, res) => {
     // console.log(process.env.ACCESS_TOKEN_SECRET);
-    // res.status(200).json(process.env.ACCESS_TOKEN_SECRET);
+    // res.json(process.env.ACCESS_TOKEN_SECRET);
     // console.log(process.env.ACCESS_TOKEN_SECRET);
     atcoderPr();//
     codeforcesProblemsetUpdate();

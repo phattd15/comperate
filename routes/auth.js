@@ -1,13 +1,11 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-
+const authTk = require('../util/authTk')
 const authController = require('../controllers/authController');
 
-// Register
 router.post("/register", authController.register);
 
-// Login
 router.post('/login', authController.login);
 
 // Test
