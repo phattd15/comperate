@@ -27,12 +27,12 @@ const problemController = {
         .limit(pageSize)
         .exec((err, docs) => {
           if (err) {
-            res.status(200).json({
+            res.json({
               success: false,
-              message: err
+              message: "Your request failed for a random reason"
             });
           } else {
-            res.status(200).json({
+            res.json({
               success: true,
               message: "Problem successfully fetched",
               data: docs
@@ -40,9 +40,9 @@ const problemController = {
           }
       })
     } catch(err) {
-      res.status(200).json({
+      res.json({
         success: false,
-        message: err
+        message: "Your request failed for a random reason"
       })
     }
   },
@@ -52,7 +52,7 @@ const problemController = {
     let user = await User.findOne({username}).exec();
 
     if (!user) {
-      res.status(200).json({
+      res.json({
         success: false,
         message: "User does not exist"
       });
@@ -61,7 +61,7 @@ const problemController = {
     try {
       let problem = await Problem.findOne({ siteId }).exec();
       if (!problem) {
-        res.status(200).json({
+        res.json({
           success: false,
           message: "No such problem found in the database"
         });
@@ -86,44 +86,17 @@ const problemController = {
       let resUser = await user.save();
       let resProb = await problem.save();
 
-      res.status(200).json({
+      res.json({
         success: true,
-        message: "Successfully updated",
-        user: resUser,
-        problem: resProb
+        message: `Successfully voted for ${siteId}.`
       });
     } catch (err) {
-      res.status(200).json({
+      res.json({
         success: false,
-        message: err
+        message: "Your request failed for a random reason."
       });
     }
   },
-
-  getVotedList: async (req, res) => {
-    try {
-      const {username} = req.body;
-      let user = await User.findOne({username}).exec();
-
-      if (!user) {
-        res.status(200).json({
-          success: false,
-          message: "User does not exist"
-        });
-        return;
-      }
-
-      res.status(200).json({
-        success: true,
-        voted: user.votes
-      });
-    } catch(err) {
-      res.status(200).json({
-        success: false,
-        message: err
-      })
-    }
-  }
 }
 
 

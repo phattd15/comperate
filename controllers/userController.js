@@ -8,6 +8,24 @@ const verify = require('../util/verify');
 const fetchRating = require('../util/fetchRating');
 
 const userController = {
+  fetchUser: async (req, res) => {
+    try {
+      const user = await User.findOne({
+        username: req.body.username
+      });
+      res.json({
+        success: true,
+        message: "User data fetched successfully",
+        user
+      })
+    } catch (err) {
+      res.json({
+        success: false,
+        message: "Your request failed for a random reason"
+      });
+    }
+  },
+
   updateProfile: async (req, res) => {
     try {
       let site = req.body.site;
@@ -58,21 +76,21 @@ const userController = {
         }
         // HOOLASGOFASOIPK
         let resUser = await user.save();
-        res.status(200).json({
+        res.json({
           success: true,
           message: "User updated",
           user: resUser
         });
       } else {
-        res.status(200).json({
+        res.json({
           success: false,
           message: "Fail to verify the account"
         });
       }
     } catch (err) {
-      res.status(200).json({
+      res.json({
         success: false,
-        message: err
+        message: "Your request failed for a random reason"
       });
     }
   },
@@ -85,7 +103,7 @@ const userController = {
       });
   
       if (!user) {
-        res.status(400).json({
+        res.json({
           success: false,
           message: "User does not exist in the database."
         });
@@ -131,15 +149,15 @@ const userController = {
         user.rating = newPeak;
       }
       let resUser = await user.save();
-      res.status(200).json({
+      res.json({
         success: true,
         message: "User updated",
         user: resUser
       });
     } catch (err) {
-      res.status(200).json({
+      res.json({
         success: false,
-        message: err
+        message: "Your request failed for a random reason"
       });
     }
   }

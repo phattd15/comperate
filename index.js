@@ -3,6 +3,7 @@ const app = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const authTk = require('./util/authTk');
 
 const PORT = process.env.PORT || 5000;
 
@@ -28,9 +29,12 @@ app.use('/api/problems/', problemsRoute);
 app.use('/api/users/', usersRoute);
 
 app.use('/', (req, res) => {
-  res.status(200).json("Probrate's backend")
+  res.json({
+    success: true,
+    message: "Probrate's backend is alive for now"
+  })
 });
 
 app.listen(PORT, () => {
-  console.log('BE running');
+  console.log('BE running on', PORT);
 });
