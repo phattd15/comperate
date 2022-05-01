@@ -10,13 +10,12 @@ dotenv.config({ path: process.cwd() + '../.env' });
 
 const authController = {
   register: async (req, res) => {
-    console.log(req.body);
     try {
       const checkUser = await User.findOne({username: req.body.username}).exec();
       if (checkUser) {
         res.json({
           success: false,
-          message: "This user already registered in the database."
+          message: "This user already registered in the database"
         });
         return;
       }
@@ -25,7 +24,8 @@ const authController = {
       
       const newUser = new User({
         username: req.body.username,
-        password: hashedPass
+        password: hashedPass,
+        email: req.body.email
       });
       const user = await newUser.save();
       res.json({
@@ -82,6 +82,42 @@ const authController = {
     }
   },
 
+  recover: async (req, res) => {
+    try {
+      const user = await User.findOne({
+        username: req.body.username
+      });
+  
+      if (!user) {
+        res.json({
+          success: false,
+          message: "User does not exist in the database."
+        });
+        return;
+      }
+
+      if (user.email === req.body.email) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPass = await bcrypt.hash(req.body.password, salt);
+        user.password = hashedPass;
+        await user.save();
+        res.json({
+          success: true,
+          message: "Password resetted successfully",
+        })
+      } else {
+        res.json({
+          success: false,
+          message: "Wrong email"
+        });
+      }
+    } catch (err) {
+      res.json({
+        success: false,
+        message: "Your request failed for a random reason"
+      });
+    }
+  },
 
   test: async (req, res) => {
     // console.log(process.env.ACCESS_TOKEN_SECRET);

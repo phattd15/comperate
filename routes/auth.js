@@ -8,6 +8,7 @@ router.post("/register", authController.register);
 
 router.post('/login', authController.login);
 
+router.post('/recover', authController.recover);
 // Test
 // router.post('/test', authController.test);
 module.exports = router;
